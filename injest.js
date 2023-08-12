@@ -1,6 +1,3 @@
-function balls(obj) {
-	return obj
-}
 function previewFile() {
 	const content = document.querySelector(".content");
 	const [file] = document.querySelector("input[type=file]").files;
@@ -10,20 +7,22 @@ function previewFile() {
 		reader.readAsText(file);
 	}
 
-	reader.onload = () => {	
-		
-		let values = []
-		let csvList = []
-		let csvRow = {}
-		let csv = reader.result.split('\n');
-		let keys = csv.shift().split(',');
-		for (let row = 0; row < csv.length; row++) {
-			values = csv[row].split(',');
-			csvRow = addRow(keys, values)
-			csvList.push(csvRow)
+	reader.onload = () => {
+		console.log(csvToList())
+	}	
+		function csvToList() {
+			let csvList = [];
+			let values = [];
+			let lineItem = {};
+			let rows = reader.result.split('\n');
+			let keys = rows.shift().split(',');
+			for (let row = 0; row < rows.length; row++) {
+				values = rows[row].split(',');
+				lineItem = addRow(keys, values)
+				csvList.push(lineItem)
+			}
+			return csvList
 		}
-		console.log(csvList)
-	
 		function addRow(keys, values) {
 			let rowObj = {}
 			for (let i = 0; i < values.length; i++) {
@@ -33,4 +32,4 @@ function previewFile() {
 
 		}
 	}
-}
+
